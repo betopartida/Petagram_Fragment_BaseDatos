@@ -6,15 +6,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.rubach.petagram.Presentador.DetalleActivityPresenter;
+import com.rubach.petagram.Presentador.IDetalleActivityPresenter;
+import com.rubach.petagram.Presentador.IRecycledViewFragmentPresenter;
+import com.rubach.petagram.Presentador.RecycledViewFragmentPresenter;
 import com.rubach.petagram.adapter.MascotaAdaptador;
 import com.rubach.petagram.pojo.Mascota;
 
 import java.util.ArrayList;
 
-public class DetalleActivity extends AppCompatActivity {
+public class DetalleActivity extends AppCompatActivity implements IDetalleActivityView{
 
     ArrayList<Mascota> Mascotas;
     private RecyclerView listaMascotas;
+    private IDetalleActivityPresenter presenter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,17 +37,18 @@ public class DetalleActivity extends AppCompatActivity {
 
         listaMascotas = (RecyclerView) findViewById(R.id.rvMascotas);
         //muestro los objetos vertical
-        LinearLayoutManager llm=new LinearLayoutManager(this);
+        /*LinearLayoutManager llm=new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         //configuro que se muestra asi en el recicleview
-        listaMascotas.setLayoutManager(llm);
+        listaMascotas.setLayoutManager(llm);*/
         //cargo las mascotas
-        InicializarListaMascotas();
+        //InicializarListaMascotas();
         //cargo el adaptador
-        inicializarAdaptador();
+        //inicializarAdaptador();
+        presenter=new DetalleActivityPresenter(this,this);
 
     }
-    public void InicializarListaMascotas(){
+    /*public void InicializarListaMascotas(){
 
         Mascotas=new ArrayList<Mascota>();
 
@@ -52,12 +58,30 @@ public class DetalleActivity extends AppCompatActivity {
         Mascotas.add(new Mascota("Jerry",3, R.drawable.pet1));
         Mascotas.add(new Mascota("Spice",2, R.drawable.pet4));
 
-    }
+    }*/
 
-    public void inicializarAdaptador(){
+    /*public void inicializarAdaptador(){
         //crea uno objeto y le pasa la lista
         MascotaAdaptador adaptador=new MascotaAdaptador(Mascotas,this);
         //asigno el adaptador.
+        listaMascotas.setAdapter(adaptador);
+    }*/
+
+    @Override
+    public void generarLinearLayoutVertical() {
+        LinearLayoutManager llm=new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        listaMascotas.setLayoutManager(llm);
+    }
+
+    @Override
+    public MascotaAdaptador crearAdaptador(ArrayList<Mascota> mascotas) {
+        MascotaAdaptador adaptador=new MascotaAdaptador(mascotas,this);
+        return adaptador;
+    }
+
+    @Override
+    public void inicializarAdaptadorRV(MascotaAdaptador adaptador) {
         listaMascotas.setAdapter(adaptador);
     }
 }

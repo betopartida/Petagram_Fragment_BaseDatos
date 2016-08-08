@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.rubach.petagram.db.ConstructorMascotas;
 import com.rubach.petagram.pojo.Mascota;
 import com.rubach.petagram.R;
 
@@ -37,7 +38,7 @@ public class MascotaAdaptador extends RecyclerView.Adapter<MascotaAdaptador.Masc
     }
     //asocia cada elemento de la lista a cada view
     @Override
-    public void onBindViewHolder(MascotaViewHolder mascotaViewHolder, int position) {
+    public void onBindViewHolder(final MascotaViewHolder mascotaViewHolder, int position) {
         final Mascota mascota =Mascotas.get(position);
         mascotaViewHolder.imgFotoMascota.setImageResource(mascota.getFoto());
         mascotaViewHolder.tvNombreCV.setText(mascota.getNombre());
@@ -48,6 +49,8 @@ public class MascotaAdaptador extends RecyclerView.Adapter<MascotaAdaptador.Masc
             @Override
             public void onClick(View view) {
                 //mensaje por pantalla
+
+
                 Toast.makeText(activity,mascota.getNombre(),Toast.LENGTH_SHORT).show();
                 //ahora vamos a la pantalla de editar contacto.
                 /*Intent intent=new Intent(activity, DetalleContacto.class);
@@ -59,11 +62,17 @@ public class MascotaAdaptador extends RecyclerView.Adapter<MascotaAdaptador.Masc
             }
         });
 
-        //evento del boton like
+        //evento del boton votar
         mascotaViewHolder.btnVotar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(activity,"Votacion aceptada" + mascota.getNombre(),Toast.LENGTH_SHORT).show();
+                ConstructorMascotas constructorMascotas=new ConstructorMascotas (activity);
+                constructorMascotas.darStarsMascota(mascota);
+
+                //Toast.makeText(activity,"Votacion aceptada" + mascota.getNombre(),Toast.LENGTH_SHORT).show();
+                //muestro en pantalla los nuevos valores
+                mascotaViewHolder.tvValoracionCv.setText(String.valueOf(constructorMascotas.obtenerSarsMascota(mascota) ));
+
             }
         });
     }

@@ -24,6 +24,12 @@ public class ConstructorMascotas {
         return db.obtenerTodosLasMascotas();
     }
 
+    public ArrayList<Mascota> obtenerTopCincoMascotas(){
+        BaseDatos db=new BaseDatos(context);
+        insertarCincoMascotas(db);
+        return db.obtenerTodop5Mascotas();
+    }
+
     public void insertarCincoMascotas(BaseDatos db){
         ContentValues contentValues=new ContentValues();
         contentValues.put(ConstantesBaseDatos.TABLE_MASCOTA_NOMBRE,"Ronny");
@@ -54,13 +60,19 @@ public class ConstructorMascotas {
         contentValues.put(ConstantesBaseDatos.TABLE_MASCOTA_FOTO, R.drawable.pet5);
 
         db.insertarMascota(contentValues);
+
+        contentValues=new ContentValues();
+        contentValues.put(ConstantesBaseDatos.TABLE_MASCOTA_NOMBRE,"Pitufo");
+        contentValues.put(ConstantesBaseDatos.TABLE_MASCOTA_FOTO, R.drawable.pet2);
+
+        db.insertarMascota(contentValues);
     }
     public void darStarsMascota(Mascota mascota){
         BaseDatos db=new BaseDatos(context);
         ContentValues contentValues = new ContentValues();
         contentValues.put(ConstantesBaseDatos.TABLE_STARS_ID_MASCOTA,mascota.getId());
         contentValues.put(ConstantesBaseDatos.TABLE_STARS_NUMERO_STARS,STARS);
-        db.insertarMascota(contentValues);
+        db.insertarStarsMascota(contentValues);
     }
 
     public int obtenerSarsMascota(Mascota mascota){

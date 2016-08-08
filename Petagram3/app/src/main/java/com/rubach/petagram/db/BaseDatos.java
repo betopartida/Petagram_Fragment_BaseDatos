@@ -64,11 +64,45 @@ public class BaseDatos extends SQLiteOpenHelper {
             mascotaActual.setFoto(registros.getInt(2));
 
             //cargo los datos de likes de la otra base
-            String queryLikes="SELECT COUNT("+ConstantesBaseDatos.TABLE_STARS_NUMERO_STARS+") as likes " +
+            String queryStars="SELECT COUNT("+ConstantesBaseDatos.TABLE_STARS_NUMERO_STARS+") as likes " +
                     " FROM " + ConstantesBaseDatos.TABLE_STARS_MASCOTA +
                     " WHERE " + ConstantesBaseDatos.TABLE_STARS_ID_MASCOTA + "=" + mascotaActual.getId();
 
-            Cursor registrosLikes=db.rawQuery(queryLikes,null);
+            Cursor registrosLikes=db.rawQuery(queryStars,null);
+            if(registrosLikes.moveToNext()){
+                mascotaActual.setValoracion(registrosLikes.getInt(0));
+            }else
+            {
+                mascotaActual.setValoracion(0);
+            }
+
+
+            contactos.add(mascotaActual);
+        }
+        db.close();
+
+        return contactos;
+    }
+    public ArrayList<Mascota> obtenerTodop5Mascotas(){
+        ArrayList<Mascota> contactos=new ArrayList<Mascota>();
+        //todo modificar el query para que devuelva los 5 mas altas, ahora solo devuelve 5 cualquiera.
+        String query="SELECT * FROM " + ConstantesBaseDatos.TABLE_MASCOTA + " LIMIT 5";
+        //abrir la conexion
+        SQLiteDatabase db=this.getWritableDatabase();
+        //abro un cursos para obtener los resultados
+        Cursor registros= db.rawQuery(query,null);
+        while (registros.moveToNext()){
+            Mascota mascotaActual=new Mascota();
+            mascotaActual.setId(registros.getInt(0));
+            mascotaActual.setNombre(registros.getString(1));
+            mascotaActual.setFoto(registros.getInt(2));
+
+            //cargo los datos de likes de la otra base
+            String queryStars="SELECT COUNT("+ConstantesBaseDatos.TABLE_STARS_NUMERO_STARS+") as likes " +
+                    " FROM " + ConstantesBaseDatos.TABLE_STARS_MASCOTA +
+                    " WHERE " + ConstantesBaseDatos.TABLE_STARS_ID_MASCOTA + "=" + mascotaActual.getId();
+
+            Cursor registrosLikes=db.rawQuery(queryStars,null);
             if(registrosLikes.moveToNext()){
                 mascotaActual.setValoracion(registrosLikes.getInt(0));
             }else

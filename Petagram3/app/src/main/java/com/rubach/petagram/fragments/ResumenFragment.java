@@ -8,13 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.rubach.petagram.adapter.MascotaAdaptador;
 import com.rubach.petagram.pojo.Mascota;
 import com.rubach.petagram.R;
 import com.rubach.petagram.adapter.MascotaAdaptadorMini;
 
 import java.util.ArrayList;
 
-public class ResumenFragment extends Fragment{
+public class ResumenFragment extends Fragment {
 
     ArrayList<Mascota> Mascotas;
     private RecyclerView listaMascotas;
@@ -61,4 +62,5 @@ public class ResumenFragment extends Fragment{
         Mascotas.add(new Mascota("Ronny",3, R.drawable.pet1));
 
     }
+
 }
